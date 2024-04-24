@@ -4,12 +4,14 @@ import App from './App.jsx'
 import './index.css'
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
 import Table from './components/Table.jsx'
+import AddProduct from './components/AddProduct.jsx'
 
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App/>}>
       <Route path='' element={<Table/>}/>
+      <Route path='/addProduct' element={<AddProduct/>}/>
 
     </Route>
   )
