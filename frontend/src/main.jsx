@@ -6,6 +6,7 @@ import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } 
 import Table from './components/Table.jsx'
 import AddProduct from './components/AddProduct.jsx'
 import ViewProduct from './components/ViewProduct.jsx'
+import UpdateProduct from './components/UpdateProduct.jsx'
 
 
 const router = createBrowserRouter(
@@ -14,6 +15,7 @@ const router = createBrowserRouter(
       <Route path='' element={<Table/>}/>
       <Route path='/addProduct' element={<AddProduct/>}/>
       <Route path='/viewProduct/:id' element={<ViewProduct/>}/>
+      <Route path='/update/:id' element={<UpdateProduct/>}/>
 
     </Route>
   )
