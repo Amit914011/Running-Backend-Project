@@ -1,7 +1,31 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { ArrowRight } from 'lucide-react'
+import axios from 'axios'
+import UserContext from '../context/UserContext'
+import {useNavigate} from 'react-router-dom'
 
 export default function AdminLogin() {
+  let {setPass} = useContext(UserContext)
+  let navigation = useNavigate()
+  let [admin, setAdmin] = useState({
+    email:'',
+    password:""
+  })
+
+const {email,password} = admin
+
+function handleChange(e){
+  setAdmin({...admin, [e.target.name]: e.target.value})
+}
+async function validateAdmin(){
+  let result = await axios.post('http://localhost:3000/api/adminLogin', admin)
+  if(result.data == true){
+    setPass(true)
+    navigation('/admin')
+  }else{
+    alert('U entered the wrong details')
+  }
+}
   return (
     <section>
       <div className="flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
@@ -45,6 +69,9 @@ export default function AdminLogin() {
                     className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                     type="email"
                     placeholder="Email"
+                    name='email'
+                    value={email}
+                    onChange={handleChange}
                   ></input>
                 </div>
               </div>
@@ -64,12 +91,16 @@ export default function AdminLogin() {
                     className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                     type="password"
                     placeholder="Password"
+                    name='password'
+                    value={password}
+                    onChange={handleChange}
                   ></input>
                 </div>
               </div>
               <div>
                 <button
                   type="button"
+                  onClick={validateAdmin}
                   className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
                 >
                   Get started <ArrowRight className="ml-2" size={16} />

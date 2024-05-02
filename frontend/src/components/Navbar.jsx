@@ -1,8 +1,9 @@
 'use client'
 
-import React from 'react'
+import React, { useContext } from 'react'
 import { Menu, X } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import UserContext from '../context/UserContext'
 
 const menuItems = [
   {
@@ -25,6 +26,7 @@ export default function Navbar() {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
   }
+  let {pass} = useContext(UserContext)
 
   return (
     <div className="relative w-full bg-white">
@@ -60,7 +62,7 @@ export default function Navbar() {
             ))}
           </ul>
         </div>
-        <div className="hidden lg:block">
+        <div className={`${pass ? "hidden lg:block" : "hidden"}`}>
           <Link
             type="button"
             to='/admin/addProduct'

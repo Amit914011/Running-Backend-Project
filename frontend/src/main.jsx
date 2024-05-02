@@ -15,28 +15,28 @@ import Protected from './components/Protected.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-   <>
+    <>
 
-  <Route path='/' element={<ClientApp/>}>
-    <Route path='' element={<Home/>}/>
-  </Route>
+      <Route path='/' element={<ClientApp />}>
+        <Route path='' element={<Home />} />
+      </Route>
 
-    <Route path='/admin' element={<App/>}>
-      <Route path='' element={
-        <Protected>
-          <Table/>
-        </Protected>
-      }/>
-      <Route path='/admin/addProduct' element={
-        <Protected>
-          <AddProduct/>
-        </Protected>
-      }/>
-      <Route path='/admin/adminLogin' element={<AdminLogin/>}/>
-      <Route path='/admin/viewProduct/:id' element={<ViewProduct/>}/>
-      <Route path='/admin/update/:id' element={<UpdateProduct/>}/>
-    </Route>
-   </>
+      <Route path='/admin' element={<App />}>
+        <Route path='' element={
+          <Protected>
+             <Table />
+          </Protected>
+         } />
+        <Route path='/admin/addProduct' element={
+          <Protected>
+            <AddProduct />
+          </Protected>
+         } />
+        <Route path='/admin/adminLogin' element={<AdminLogin />} />
+        <Route path='/admin/viewProduct/:id' element={<ViewProduct />} />
+        <Route path='/admin/update/:id' element={<UpdateProduct />} />
+      </Route>
+    </>
   )
 )
 

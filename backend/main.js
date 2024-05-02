@@ -2,6 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const db = require('./dataBaseConfig.js')
 const productRoute = require('./routes/productRoute.js')
+const adminRoute = require('./routes/adminRoute.js')
 
 let app = express()
 app.use(express.json())
@@ -35,6 +36,8 @@ db.query(productTableQuery, (err, result)=>{
 
 
 app.use('/api', productRoute)
+
+app.use('/api', adminRoute)
 
 
 app.listen(3000, ()=>{
