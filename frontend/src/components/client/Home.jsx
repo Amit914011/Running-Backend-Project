@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { BarChart, Wallet, Newspaper, BellRing, Paperclip, Brush, Wrench } from 'lucide-react'
+import React, { useEffect, useRef, useState } from 'react'
+import { BarChart, Wallet, Newspaper, BellRing, Paperclip, Brush, Wrench, Search } from 'lucide-react'
 import axios from 'axios'
 
 export default function Home() {
@@ -8,6 +8,10 @@ export default function Home() {
   useEffect(() => {
     getData()
   }, [])
+
+  let [inp, setInp] = useState('')
+console.log(inp)
+
   async function getData() {
     let result = await axios.get('http://localhost:3000/api/getProduct')
     setData(result.data)
@@ -33,6 +37,12 @@ export default function Home() {
     let final = await result.data.filter((data)=> data.productRating == 5)
     setData(final)
   }
+
+  async function getProductByBrand(){
+    let result = await axios.get(`http://localhost:3000/api//getProductByBrand/${inp}`)
+    setData(result.data)
+  }
+
   return (
     <>
       <aside className="flex fixed h-screen w-64 flex-col overflow-y-auto border-r bg-black px-5 py-8">
@@ -50,13 +60,18 @@ export default function Home() {
                       <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                     </svg>
                   </div>
-                  <input type="search" id="default-search" className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search By Product Brand..." required />
+                  <input type="search" 
+                  id="default-search" className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search By Product Brand..." required 
+                 onChange={(e)=>setInp(e.target.value)}
+                  />
+
                 </div>
               </form>
 
               <button
                 className="flex transform bg-gray-100 items-center rounded-lg px-3 py-2 text-black transition-colors duration-300 hover:bg-gray-400 hover:text-white"
-                
+                type='submit'
+                onClick={getProductByBrand}
               >
               Search
               </button>

@@ -6,6 +6,7 @@ const productControllers = require('../controllers/productControllers')
 router.post('/productSave', productControllers.productSave)
 
 router.get('/getProduct', productControllers.getProduct)
+router.get('/getProductByBrand/:inp', productControllers.getProductByBrand)
 
 router.get('/viewProduct/:id', productControllers.viewProduct)
 
