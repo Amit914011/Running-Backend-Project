@@ -7,6 +7,7 @@ const adminRoute = require('./routes/adminRoute.js')
 let app = express()
 app.use(express.json())
 app.use(cors())
+app.use(express.static('uploads'))
 
 
 db.connect((err)=>{

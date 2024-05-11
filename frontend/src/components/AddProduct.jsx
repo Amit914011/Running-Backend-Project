@@ -1,26 +1,34 @@
 import React, { useState } from 'react'
 import { ArrowRight } from 'lucide-react'
 import axios from 'axios'
-import { Link} from 'react-router-dom'
+import { Link, useNavigate} from 'react-router-dom'
 
 
 export default function AddProduct() {
+  let navigation = useNavigate()
 
-    let [product, setProduct] = useState({
-        productBrand: '',
-        productType: '',
-        productPrice: '',
-        productRating:''
-    })
 
-    const {productBrand, productType, productPrice, productRating} = product
+    let [productBrand, setProductBrand] = useState('')
+    let [productType, setProductType] = useState('')
+    let [productPrice, setProductPrice] = useState('')
+    let [productRating, setProductRating] = useState('')
+    let [image, setImage] = useState(null)
 
-    function handleChange(e){
-        setProduct({...product,[e.target.name]:e.target.value})
-    }
+    async function handleSubmit(e){
+      e.preventDefault()
+      let product = new FormData()
+      product.append('image', image)
+      product.append('productBrand', productBrand)
+      product.append('productType', productType)
+      product.append('productPrice', productPrice)
+      product.append('productRating', productRating)
 
-    async function handleSubmit(){
-        await axios.post('http://localhost:3000/api/productSave', product)   
+        await axios.post('http://localhost:3000/api/productSave', product,{
+          headers:{
+            'Content-Type': 'multipart/form-data'
+          }
+        })   
+        navigation('/admin')
     }
 
   return (
@@ -53,8 +61,8 @@ export default function AddProduct() {
                       placeholder="Full Name"
                       id="name"
                       name='productBrand'
-                      value={productBrand}
-                      onChange={handleChange}
+                      
+                      onChange={(e)=>setProductBrand(e.target.value)}
                     ></input>
                   </div>
                 </div>
@@ -70,8 +78,8 @@ export default function AddProduct() {
                       placeholder="Full Name"
                       id="name"
                       name='productType'
-                      value={productType}
-                      onChange={handleChange}
+                      onChange={(e)=>setProductType(e.target.value)}
+
                     ></input>
                   </div>
                 </div>
@@ -87,8 +95,8 @@ export default function AddProduct() {
                       placeholder="Full Name"
                       id="name"
                       name='productPrice'
-                      value={productPrice}
-                      onChange={handleChange}
+                      onChange={(e)=>setProductPrice(e.target.value)}
+
                     ></input>
                   </div>
                 </div>
@@ -104,21 +112,34 @@ export default function AddProduct() {
                       placeholder="Full Name"
                       id="name"
                       name='productRating'
-                      value={productRating}
-                      onChange={handleChange}
+                      onChange={(e)=>setProductRating(e.target.value)}
+
+                    ></input>
+                  </div>
+                </div>
+                <div>
+                  <label htmlFor="name" className="text-base font-medium text-gray-900">
+                    {' '}
+                    Upload Image{' '}
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                      type="file"
+                      accept='image/*'
+                      onChange={(e)=>setImage(e.target.files[0])}
                     ></input>
                   </div>
                 </div>
                
                 <div>
-                  <Link
+                  <button
                     type="submit"
                     onClick={handleSubmit}
-                    to='/'
                     className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
                   >
                     Add Product <ArrowRight className="ml-2" size={16} />
-                  </Link>
+                  </button>
                 </div>
               </div>
             </form>

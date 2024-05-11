@@ -6,9 +6,10 @@ exports.productSave = (req, res)=>{
     let productType = req.body.productType
     let productPrice = req.body.productPrice
     let productRating = req.body.productRating
+    let image=req.file.filename
 
-    let value = [[productBrand, productType, productPrice, productRating]]
-    let sql = 'insert into product(productBrand, productType, productPrice, productRating) values ?'
+    let value = [[productBrand, productType, productPrice, productRating,image]]
+    let sql = 'insert into product(productBrand, productType, productPrice, productRating,image) values ?'
     db.query(sql, [value], (err, result)=>{
         if(err) throw err
         else{

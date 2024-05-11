@@ -1,9 +1,10 @@
 const express = require('express')
 const router = express.Router()
 const productControllers = require('../controllers/productControllers')
+const uploads = require('../multerConfig.js')
 
 
-router.post('/productSave', productControllers.productSave)
+router.post('/productSave',uploads.single("image"),productControllers.productSave)
 
 router.get('/getProduct', productControllers.getProduct)
 router.get('/getProductByBrand/:inp', productControllers.getProductByBrand)
