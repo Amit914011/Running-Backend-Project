@@ -39,8 +39,25 @@ console.log(inp)
   }
 
   async function getProductByBrand(){
-    let result = await axios.get(`http://localhost:3000/api//getProductByBrand/${inp}`)
+    let result = await axios.get(`http://localhost:3000/api/getProductByBrand/${inp}`)
     setData(result.data)
+  }
+
+  async function cartSave(data){
+    await axios.post('http://localhost:3000/api/cartSave',{
+
+      productBrand:data.productBrand,
+      productPrice:data.productPrice,
+      productRating:data.productRating,
+      productType:data.productType,
+      image:data.image,
+
+    }, {
+      headers:{
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    alert('item saved into cart')
   }
 
   return (
@@ -160,6 +177,7 @@ console.log(inp)
 
               <button
                 type="button"
+                onClick={()=>cartSave(data)}
                 className="mt-4 rounded-sm bg-black px-2.5 py-1 text-[10px] font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
               >
                 Add to Cart
