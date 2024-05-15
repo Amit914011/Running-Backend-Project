@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import UserContext from './UserContext'
 
 export default function UserContextProvider({children}) {
-    let [pass, setPass] = useState(true)
+    let [pass, setPass] = useState('')
   return (
    <UserContext.Provider value={{pass, setPass}}>
     {children}

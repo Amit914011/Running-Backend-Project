@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Trash, Heart } from 'lucide-react'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
+import UserContext from '../../context/UserContext'
 
 
 export function Cart() {
@@ -9,12 +11,21 @@ export function Cart() {
     useEffect(() => {
       getData()
     }, [])
+    
+    let {setCartList} = useContext(UserContext)
 
     async function getData() {
       let result = await axios.get('http://localhost:3000/api/getCart')
       setData(result.data)
+      setCartList(result.data.length)
     }
-
+    async function deleteData(id){
+      let flag = confirm('Are U Sure to delete')
+   if(flag == true){
+    await  axios.delete(`http://localhost:3000/api/deleteCart/${id}`)
+    getData()
+   }
+    }
     let x = data.reduce((a, b)=> a + JSON.parse(b.productPrice) ,0)
   return (
     <div className="mx-auto flex max-w-3xl flex-col space-y-4 p-6 px-2 sm:p-10 sm:px-2">
@@ -43,7 +54,9 @@ export function Cart() {
                   </div>
                 </div>
                 <div className="flex divide-x text-sm">
-                  <button type="button" className="flex items-center space-x-2 px-2 py-1 pl-0">
+                  <button type="button"
+                  onClick={()=>deleteData(data.id)}
+                  className="flex items-center space-x-2 px-2 py-1 pl-0">
                     <Trash size={16} />
                     <span>Remove</span>
                   </button>
@@ -64,12 +77,13 @@ export function Cart() {
         </p>
       </div>
       <div className="flex justify-end space-x-4">
-        <button
+        <Link
           type="button"
+          to='/'
           className="rounded-md border border-black px-3 py-2 text-sm font-semibold text-black shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
         >
           Back to shop
-        </button>
+        </Link>
         <button
           type="button"
           className="rounded-md border border-black px-3 py-2 text-sm font-semibold text-black shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"

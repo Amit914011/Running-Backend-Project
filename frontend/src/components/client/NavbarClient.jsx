@@ -1,8 +1,9 @@
 'use client'
 
-import React from 'react'
+import React, { useContext } from 'react'
 import { Menu, X } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import UserContext from '../../context/UserContext'
 
 const menuItems = [
   {
@@ -26,6 +27,7 @@ export default function NavbarClient() {
     setIsMenuOpen(!isMenuOpen)
   }
 
+  let {cartList} = useContext(UserContext)
   return (
     <div className="fixed z-50 w-full bg-white">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
@@ -60,13 +62,14 @@ export default function NavbarClient() {
             ))}
           </ul>
         </div>
-        <div className="hidden lg:block">
+        <div className="hidden relative lg:block">
           <Link
             type="button"
             to='/cart'
             className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-black border-2 border-red-400 shadow-sm hover:bg-red-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
           >
            Cart
+           <span className={`${cartList ? 'absolute text-xl text-white w-[15px] rounded h-[30px] top-[-12px] right-[-8px] text-center bg-black' : 'hidden'}`}>{cartList}</span>
           </Link>
         </div>
         <div className="lg:hidden">
