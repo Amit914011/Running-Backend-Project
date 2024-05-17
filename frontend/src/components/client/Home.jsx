@@ -2,9 +2,11 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { BarChart, Wallet, Newspaper, BellRing, Paperclip, Brush, Wrench, Search } from 'lucide-react'
 import axios from 'axios'
 import UserContext from '../../context/UserContext'
+import { useNavigate } from 'react-router-dom'
 
 export default function Home() {
   let [data, setData] = useState([])
+  let navigation = useNavigate()
 
   useEffect(() => {
     getData()
@@ -52,16 +54,17 @@ async function getCartList() {
     let result = await axios.get(`http://localhost:3000/api/getProductByBrand/${inp}`)
     setData(result.data)
   }
+  
+    let {login} = useContext(UserContext)
 
   async function cartSave(data){
-    await axios.post('http://localhost:3000/api/cartSave',{
-
+    if(login){
+      await axios.post('http://localhost:3000/api/cartSave',{
       productBrand:data.productBrand,
       productPrice:data.productPrice,
       productRating:data.productRating,
       productType:data.productType,
       image:data.image,
-
     }, {
       headers:{
         'Content-Type': 'multipart/form-data'
@@ -69,6 +72,9 @@ async function getCartList() {
     })
     alert('item saved into cart')
     getCartList()
+    }else{
+      navigation('/clientLogin')
+    }
   }
 
   return (

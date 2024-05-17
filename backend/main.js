@@ -4,6 +4,7 @@ const db = require('./dataBaseConfig.js')
 const productRoute = require('./routes/productRoute.js')
 const adminRoute = require('./routes/adminRoute.js')
 const cartRoute = require('./routes/cartRoute.js')
+const clientRoute = require('./routes/clientRoute.js')
 
 let app = express()
 app.use(express.json())
@@ -53,6 +54,22 @@ db.query(cartTableQuery, (err, result)=>{
         console.log("CART table created successfull")
     }
 })
+let clientTableQuery = `
+CREATE TABLE IF NOT EXISTS clientData (
+    id INT NOT NULL AUTO_INCREMENT,
+    username VARCHAR(255) NULL,
+    email VARCHAR(255) NULL,
+    password VARCHAR(255) NULL,
+    image VARCHAR(255) NULL,
+    PRIMARY KEY (id));
+`
+
+db.query(clientTableQuery, (err, result)=>{
+    if(err) throw err
+    else{
+        console.log("client table created successfull")
+    }
+})
 
 
 app.use('/api', productRoute)
@@ -60,6 +77,8 @@ app.use('/api', productRoute)
 app.use('/api', adminRoute)
 
 app.use('/api', cartRoute)
+
+app.use('/api', clientRoute)
 
 
 app.listen(3000, ()=>{
