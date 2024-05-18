@@ -8,5 +8,5 @@ export default function Protected({children}) {
     return children
   }else{
     return <Navigate to='/admin/adminLogin'/>
-  }
+  } 
 }

@@ -79,3 +79,24 @@ exports.updateClient = (req, res)=>{
     })
 }
 
+
+exports.createClientTable = (req, res)=>{
+    let username = req.params.username
+    let createClientTable = `
+CREATE TABLE IF NOT EXISTS ${username} (
+    id INT NOT NULL AUTO_INCREMENT,
+    productBrand VARCHAR(255) NULL,
+    productType VARCHAR(255) NULL,
+    productPrice VARCHAR(255) NULL,
+    productRating VARCHAR(255) NULL,
+    image VARCHAR(255) NULL,
+    PRIMARY KEY (id));
+`
+
+db.query(createClientTable, (err, result)=>{
+    if(err) throw err
+    else{
+        console.log("client table created successfull")
+    }
+})
+}

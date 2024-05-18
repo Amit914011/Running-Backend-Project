@@ -23,11 +23,16 @@ let {setLogin} = useContext(UserContext)
 async function validateAdmin(){
   let result = await axios.post('http://localhost:3000/api/clientLogin', admin)
   if(result.data == true){
-    setLogin(true)
+    createClientTable(admin.username)
     navigation('/')
   }else{
     alert('U entered the wrong details')
   }
+}
+
+async function createClientTable(username){
+  await axios.get(`http://localhost:3000/api/createClientTable/${username}`)
+  setLogin(username)
 }
   return (
     <section>

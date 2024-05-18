@@ -11,6 +11,8 @@ router.post('/clientLogin', clientControllers.clientLogin)
 
 router.get('/getClient', clientControllers.getClient)
 
+router.get('/createClientTable/:username', clientControllers.createClientTable)
+
 
 router.put('/updateClient/:id', clientControllers.updateClient)
 
