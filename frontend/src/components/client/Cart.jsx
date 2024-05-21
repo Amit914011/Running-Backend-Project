@@ -11,18 +11,19 @@ export function Cart() {
     useEffect(() => {
       getData()
     }, [])
+  let {login} = useContext(UserContext)
     
     let {setCartList} = useContext(UserContext)
 
     async function getData() {
-      let result = await axios.get('http://localhost:3000/api/getCart')
+      let result = await axios.get(`http://localhost:3000/api/getCart/${login}`)
       setData(result.data)
       setCartList(result.data.length)
     }
     async function deleteData(id){
       let flag = confirm('Are U Sure to delete')
    if(flag == true){
-    await  axios.delete(`http://localhost:3000/api/deleteCart/${id}`)
+    await  axios.delete(`http://localhost:3000/api/deleteCart/${id}/${login}`)
     getData()
    }
     }

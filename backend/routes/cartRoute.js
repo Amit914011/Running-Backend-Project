@@ -4,10 +4,10 @@ const cartControllers = require('../controllers/cartController.js')
 const uploads = require('../multerConfig.js')
 
 
-router.post('/cartSave',uploads.single("image"),cartControllers.cartSave)
+router.post('/cartSave/:username',uploads.single("image"),cartControllers.cartSave)
 
-router.get('/getCart', cartControllers.getCart)
+router.get('/getCart/:username', cartControllers.getCart)
 
-router.delete('/deleteCart/:id', cartControllers.deleteCart)
+router.delete('/deleteCart/:id/:username', cartControllers.deleteCart)
 
 module.exports = router

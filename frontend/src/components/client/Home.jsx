@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 export default function Home() {
   let [data, setData] = useState([])
   let navigation = useNavigate()
+  let {login} = useContext(UserContext)
 
   useEffect(() => {
     getData()
@@ -18,7 +19,7 @@ export default function Home() {
 let {setCartList} = useContext(UserContext)
 
 async function getCartList() {
-  let result = await axios.get('http://localhost:3000/api/getCart')
+  let result = await axios.get(`http://localhost:3000/api/getCart/${login}`)
 
   setCartList(result.data.length)
 }
@@ -54,11 +55,10 @@ async function getCartList() {
     setData(result.data)
   }
   
-    let {login} = useContext(UserContext)
 
   async function addtoCart(data){
     if(login){
-      await axios.post('http://localhost:3000/api/cartSave',{
+      await axios.post(`http://localhost:3000/api/cartSave/${login}`,{
       productBrand:data.productBrand,
       productPrice:data.productPrice,
       productRating:data.productRating,

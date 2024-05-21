@@ -5,10 +5,11 @@ exports.cartSave = (req, res)=>{
     let productType = req.body.productType
     let productPrice = req.body.productPrice
     let productRating = req.body.productRating
+    let username = req.params.username
     let image=req.body.image
 
     let value = [[productBrand, productType, productPrice, productRating,image]]
-    let sql = 'insert into cart(productBrand, productType, productPrice, productRating,image) values ?'
+    let sql = `insert into ${username}(productBrand, productType, productPrice, productRating,image) values ?`
     db.query(sql, [value], (err, result)=>{
         if(err) throw err
         else{
@@ -18,7 +19,8 @@ exports.cartSave = (req, res)=>{
 }
 
 exports.getCart = (req, res)=>{
-    let sql = 'select * from cart'
+    let username = req.params.username
+    let sql = `select * from ${username}`
     db.query(sql, (err, result)=>{
         if(err) throw err
         else{
@@ -29,7 +31,9 @@ exports.getCart = (req, res)=>{
 
 exports.deleteCart = (req, res)=>{
     let id = req.params.id
-    let sql = 'delete from cart where id = ?'
+    let username = req.params.username
+
+    let sql = `delete from ${username} where id = ?`
 
     db.query(sql, [id], (err, result)=>{
         if(err) throw err
