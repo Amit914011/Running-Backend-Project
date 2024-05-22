@@ -1,13 +1,14 @@
 const db = require('../dataBaseConfig.js')
+const bcrypt = require('bcryptjs')
 
-
-exports.clientSave = (req, res)=>{
+exports.clientSave = async (req, res)=>{
     let username = req.body.username
     let email = req.body.email
     let password = req.body.password
+    let hashPassword = await bcrypt.hash(password, 10)
     let image=req.file.filename
 
-    let value = [[username, email, password,image]]
+    let value = [[username, email, hashPassword,image]]
     let sql = 'insert into clientData(username, email, password,image) values ?'
     db.query(sql, [value], (err, result)=>{
         if(err) throw err
@@ -20,15 +21,19 @@ exports.clientSave = (req, res)=>{
 exports.clientLogin = (req, res)=>{
     let username = req.body.username
     let password = req.body.password
-    let sql = 'select * from clientData where username= ? and password = ?'
+    let sql = 'select * from clientData where username= ?'
 
-    db.query(sql, [username, password], (err, result)=>{
+    db.query(sql, [username], (err, result)=>{
+
         if(err) throw err
         else{
             if(result.length > 0){
-                res.send(true)
-            }else{
-                res.send(false)
+                bcrypt.compare(password, result[0].password, (err, isMatch)=>{
+                    if(err) throw err
+                    else{
+                        res.json(isMatch)
+                    }
+                })
             }
         }
     })

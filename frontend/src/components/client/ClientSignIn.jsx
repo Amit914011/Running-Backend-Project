@@ -22,8 +22,8 @@ function handleChange(e){
 let {setLogin} = useContext(UserContext)
 async function validateAdmin(){
   let result = await axios.post('http://localhost:3000/api/clientLogin', admin)
-  if(result.datsetLogina == true){
-  (admin.username)
+  if(result.data == true){
+  setLogin(admin.username)
     createClientTable(admin.username)
     navigation('/')
   }else{
