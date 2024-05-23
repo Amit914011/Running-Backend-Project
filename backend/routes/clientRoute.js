@@ -16,4 +16,6 @@ router.get('/createClientTable/:username', clientControllers.createClientTable)
 
 router.put('/updateClient/:id', clientControllers.updateClient)
 
+router.get('/getUserDetails/:username', clientControllers.getUserDetails)
+
 module.exports = router

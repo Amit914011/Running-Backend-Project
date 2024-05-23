@@ -105,3 +105,15 @@ db.query(createClientTable, (err, result)=>{
     }
 })
 }
+
+
+exports.getUserDetails = (req, res)=>{
+    let username = req.params.username
+    let sql = 'select * from clientData where username = ?'
+    db.query(sql, [username], (err, result)=>{
+        if(err) throw err
+        else{
+            res.json(result)
+        }
+    })
+}
