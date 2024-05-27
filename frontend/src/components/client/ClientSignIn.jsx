@@ -21,21 +21,20 @@ function handleChange(e){
 
 let {login} = useContext(UserContext)
 async function validateAdmin(){
-
-login(admin.username, admin.password)
-  // if(result.data == true){
-  // setLogin(admin.username)
+let result = await login(admin.username, admin.password)
+console.log(result)
+  if(result == true){
     createClientTable(admin.username)
-  //   navigation('/')
-  // }else{
-  //   alert('U entered the wrong details')
-  // }
+    navigation('/')
+  }else{
+    alert('U entered the wrong details')
+  }
 }
 
 async function createClientTable(username){
   await axios.get(`http://localhost:3000/api/createClientTable/${username}`)
-  // setLogin(username)
 }
+
   return (
     <section>
       <div className="flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">

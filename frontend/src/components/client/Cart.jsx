@@ -8,22 +8,24 @@ import UserContext from '../../context/UserContext'
 export function Cart() {
     let [data, setData] = useState([])
 
+    let {auth} = useContext(UserContext)
     useEffect(() => {
       getData()
-    }, [])
-  let {login} = useContext(UserContext)
+    }, [auth])
     
     let {setCartList} = useContext(UserContext)
 
     async function getData() {
-      let result = await axios.get(`http://localhost:3000/api/getCart/${login}`)
+      if(auth.isAuthenticated){
+        let result = await axios.get(`http://localhost:3000/api/getCart/${auth.user}`)
       setData(result.data)
       setCartList(result.data.length)
+      }
     }
     async function deleteData(id){
       let flag = confirm('Are U Sure to delete')
    if(flag == true){
-    await  axios.delete(`http://localhost:3000/api/deleteCart/${id}/${login}`)
+    await  axios.delete(`http://localhost:3000/api/deleteCart/${id}/${auth.user}`)
     getData()
    }
     }

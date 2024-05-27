@@ -93,6 +93,24 @@ exports.updateClient = (req, res)=>{
 }
 
 
+exports.profile = (req, res) => {
+    const token = req.headers['authorization'].split(' ')[1];
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    console.log(decoded)
+        if (err) {
+            return res.status(400).send('Invalid token');
+        }
+        db.query('SELECT * FROM clientData WHERE id = ?', [decoded.id], (err, results) => {
+            if (err) {
+                return res.status(500).send('Database error');
+            }
+            res.status(200).json(results[0]);
+        });
+    });
+}
+
+
 exports.createClientTable = (req, res)=>{
     let username = req.params.username
     let createClientTable = `

@@ -29,17 +29,22 @@ export default function NavbarClient() {
   }
 
   let {cartList} = useContext(UserContext)
-  let {login} = useContext(UserContext)
+  let {logout} = useContext(UserContext)
 let [data, setData] = useState([])
 
 
   async function getUserDetails(){
-    let result = await axios.get(`http://localhost:3000/api/getUserDetails/${login}`)
-    setData(result.data)
+    // let result = await axios.get(`http://localhost:3000/api/getUserDetails/${login}`)
+    // setData(result.data)
   }
-  useEffect(()=>{
-    getUserDetails()
-  }, [login])
+  // useEffect(()=>{
+  //   getUserDetails()
+  // }, [login])
+
+  function logoutUser(){
+    logout()
+    window.location.reload()
+  }
   return (
     <div className="fixed z-50 w-full bg-white">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
@@ -75,6 +80,8 @@ let [data, setData] = useState([])
           </ul>
         </div>
        <div className='flex gap-12 items-center'>
+       <button onClick={logoutUser}>Logout</button>
+
        <div className="hidden relative lg:block">
           <Link
             type="button"

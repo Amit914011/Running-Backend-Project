@@ -11,6 +11,8 @@ router.post('/clientLogin', clientControllers.clientLogin)
 
 router.get('/getClient', clientControllers.getClient)
 
+router.get('/profile', clientControllers.profile)
+
 router.get('/createClientTable/:username', clientControllers.createClientTable)
 
 
