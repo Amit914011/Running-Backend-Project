@@ -29,17 +29,20 @@ export default function NavbarClient() {
   }
 
   let {cartList} = useContext(UserContext)
-  let {logout} = useContext(UserContext)
+  let {auth, logout} = useContext(UserContext)
 let [data, setData] = useState([])
+let [show, setShow] = useState(false)
 
 
   async function getUserDetails(){
-    // let result = await axios.get(`http://localhost:3000/api/getUserDetails/${login}`)
-    // setData(result.data)
+   if(auth.isAuthenticated){
+    let result = await axios.get(`http://localhost:3000/api/getUserDetails/${auth.user}`)
+    setData(result.data)
+   }
   }
-  // useEffect(()=>{
-  //   getUserDetails()
-  // }, [login])
+  useEffect(()=>{
+    getUserDetails()
+  }, [auth])
 
   function logoutUser(){
     logout()
@@ -79,9 +82,9 @@ let [data, setData] = useState([])
             ))}
           </ul>
         </div>
-       <div className='flex gap-12 items-center'>
-       <button onClick={logoutUser}>Logout</button>
-
+       <div className='flex gap-5 items-center'>
+            <Link to='/clientLogin' className='p-2 bg-gray-400 rounded font-bold'>Login</Link>
+            <Link to='/clientSignUp' className='p-2 bg-gray-400 rounded font-bold'>Sign Up</Link>
        <div className="hidden relative lg:block">
           <Link
             type="button"
@@ -93,14 +96,23 @@ let [data, setData] = useState([])
           </Link>
         </div>
         {data.map((data)=>(
-          <div className="ml-2 mt-2 hidden lg:block">
-          <span className="relative inline-block">
+          <div className="ml-2 mt-2 hidden relative lg:block">
+          <span className="relative inline-block cursor-pointer" 
+          onClick={()=>setShow(!show)}
+          >
             <img
               className="h-10 w-10 rounded-full"
               src={`http://localhost:3000/${data.image}`}
             />
             <span className="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-green-600 ring-2 ring-white"></span>
           </span>
+          { show &&  <div className='w-[150px] h-[200px] rounded-[20px] bg-gray-400 absolute right-[0px] flex flex-col justify-evenly items-center'>
+            <img src={`http://localhost:3000/${data.image}`} className='w-[60] h-[60px] rounded-full' alt="" />
+            <h1 className='uppercase text-2xl font-bold'>{data.username}</h1>
+
+            <button onClick={logoutUser} className='p-2 rounded-xl bg-black text-white font-bold'>Logout</button>
+          </div>
+          }
         </div>
         ))}
        </div>

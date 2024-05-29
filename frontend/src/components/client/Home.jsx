@@ -45,6 +45,12 @@ let {setCartList} = useContext(UserContext)
     let final = await result.data.filter((data)=> data.productRating == 5)
     setData(final)
   }
+  useEffect(()=>{
+    getProductByBrand()
+    if(inp == ''){
+      getData()
+    }
+  }, [inp])
 
   async function getProductByBrand(){
     let result = await axios.get(`http://localhost:3000/api/getProductByBrand/${inp}`)
@@ -107,13 +113,13 @@ async function getCartList() {
                 </div>
               </form>
 
-              <button
+              {/* <button
                 className="flex transform bg-gray-100 items-center rounded-lg px-3 py-2 text-black transition-colors duration-300 hover:bg-gray-400 hover:text-white"
                 type='submit'
                 onClick={getProductByBrand}
               >
               Search
-              </button>
+              </button> */}
               <button
                 className="flex transform bg-gray-100 items-center rounded-lg px-3 py-2 text-black transition-colors duration-300 hover:bg-gray-400 hover:text-white"
                 onClick={getData}
